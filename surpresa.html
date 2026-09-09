@@ -1,0 +1,3515 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Uma surpresa para você ❤️</title>
+
+<style>
+
+/* =========================================================
+   CONFIGURAÇÕES GERAIS
+========================================================= */
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: Georgia, "Times New Roman", serif;
+    background: #02030d;
+    color: white;
+}
+
+/* =========================================================
+   FUNDO
+========================================================= */
+
+body {
+    position: relative;
+    background:
+        radial-gradient(
+            circle at 50% 40%,
+            rgba(70, 60, 140, 0.18),
+            transparent 40%
+        ),
+        #02030d;
+}
+
+/* =========================================================
+   CANVAS DO CÉU
+========================================================= */
+
+#ceu {
+    position: fixed;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+}
+
+/* =========================================================
+   NEBULOSA
+========================================================= */
+
+.nebulosa {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+
+    background:
+        radial-gradient(
+            ellipse at 25% 30%,
+            rgba(100, 80, 220, 0.08),
+            transparent 35%
+        ),
+        radial-gradient(
+            ellipse at 75% 65%,
+            rgba(255, 70, 150, 0.06),
+            transparent 35%
+        ),
+        radial-gradient(
+            ellipse at 50% 90%,
+            rgba(50, 100, 255, 0.05),
+            transparent 40%
+        );
+}
+
+/* =========================================================
+   LUA
+========================================================= */
+
+.lua {
+    position: fixed;
+    width: 105px;
+    height: 105px;
+
+    top: 10%;
+    right: 8%;
+
+    border-radius: 50%;
+
+    background:
+        radial-gradient(
+            circle at 35% 35%,
+            #ffffff,
+            #d9d9e8 45%,
+            #9b9bae 100%
+        );
+
+    box-shadow:
+        0 0 25px rgba(255,255,255,0.7),
+        0 0 70px rgba(210,210,255,0.35);
+
+    z-index: 10;
+
+    cursor: pointer;
+
+    transition: 0.4s ease;
+}
+
+.lua:hover {
+    transform: scale(1.08);
+
+    box-shadow:
+        0 0 35px rgba(255,255,255,0.9),
+        0 0 90px rgba(210,210,255,0.5);
+}
+
+/* =========================================================
+   TEXTO
+========================================================= */
+
+.texto-container {
+    position: fixed;
+
+    left: 7%;
+    right: 7%;
+
+    top: 8%;
+    bottom: 8%;
+
+    z-index: 5;
+
+    overflow: hidden;
+
+    pointer-events: auto;
+
+    touch-action: none;
+
+    cursor: grab;
+
+    -webkit-mask-image:
+        linear-gradient(
+            to bottom,
+            transparent 0%,
+            black 12%,
+            black 88%,
+            transparent 100%
+        );
+
+    mask-image:
+        linear-gradient(
+            to bottom,
+            transparent 0%,
+            black 12%,
+            black 88%,
+            transparent 100%
+        );
+}
+
+.texto-container.arrastando {
+    cursor: grabbing;
+}
+
+.texto-scroll {
+    position: absolute;
+
+    left: 0;
+    width: 100%;
+
+    top: 100%;
+
+    padding-bottom: 120px;
+
+    text-align: center;
+
+    user-select: none;
+}
+
+.parte {
+    max-width: 850px;
+
+    margin: 0 auto 120px;
+
+    padding: 0 15px;
+}
+
+.parte h2 {
+    font-size: 27px;
+
+    margin-bottom: 25px;
+
+    color: #eeeeee;
+
+    letter-spacing: 2px;
+
+    text-shadow:
+        0 0 10px rgba(255,255,255,0.4),
+        0 0 25px rgba(180,180,255,0.2);
+}
+
+.parte p {
+    font-size: 20px;
+
+    line-height: 1.9;
+
+    color: #dddddf;
+
+    text-shadow:
+        0 0 8px rgba(255,255,255,0.3);
+
+    white-space: pre-line;
+}
+
+/* =========================================================
+   CORAÇÕES FLUTUANTES
+========================================================= */
+
+.coracao {
+    position: fixed;
+
+    bottom: -40px;
+
+    z-index: 3;
+
+    pointer-events: none;
+
+    opacity: 0;
+
+    animation:
+        subirCoracao linear forwards;
+
+    text-shadow:
+        0 0 12px rgba(255,80,150,0.8);
+}
+
+@keyframes subirCoracao {
+
+    0% {
+        transform:
+            translateY(0)
+            rotate(0deg)
+            scale(0.7);
+
+        opacity: 0;
+    }
+
+    10% {
+        opacity: 0.8;
+    }
+
+    90% {
+        opacity: 0.7;
+    }
+
+    100% {
+        transform:
+            translateY(-115vh)
+            rotate(25deg)
+            scale(1.2);
+
+        opacity: 0;
+    }
+}
+
+/* =========================================================
+   CORAÇÕES AO TOCAR
+========================================================= */
+
+.coracao-clique {
+    position: fixed;
+
+    left: var(--x);
+    top: var(--y);
+
+    z-index: 300;
+
+    pointer-events: none;
+
+    font-size: 20px;
+
+    transform:
+        translate(-50%, -50%)
+        scale(0.4)
+        rotate(0deg);
+
+    animation:
+        explosaoCoracao 900ms ease-out forwards;
+
+    text-shadow:
+        0 0 12px rgba(255,80,150,0.9);
+}
+
+@keyframes explosaoCoracao {
+
+    0% {
+        opacity: 1;
+
+        transform:
+            translate(-50%, -50%)
+            translate(0,0)
+            scale(0.3)
+            rotate(0deg);
+    }
+
+    100% {
+        opacity: 0;
+
+        transform:
+            translate(-50%, -50%)
+            translate(var(--dx), var(--dy))
+            scale(1.2)
+            rotate(var(--rot));
+    }
+}
+
+/* =========================================================
+   BOTÃO DA MÚSICA
+========================================================= */
+
+.botao-musica {
+    position: fixed;
+
+    right: 20px;
+    bottom: 20px;
+
+    width: 52px;
+    height: 52px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: rgba(255,255,255,0.12);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255,255,255,0.25);
+
+    color: white;
+
+    font-size: 24px;
+
+    cursor: pointer;
+
+    z-index: 100;
+
+    box-shadow:
+        0 0 20px rgba(255,255,255,0.15);
+
+    transition: 0.3s ease;
+}
+
+.botao-musica:hover {
+    transform: scale(1.1);
+
+    background: rgba(255,255,255,0.2);
+}
+
+/* =========================================================
+   BOTÃO DO MINI-JOGO
+========================================================= */
+
+.botao-jogo {
+    position: fixed;
+
+    left: 50%;
+    top: 18px;
+
+    transform: translateX(-50%);
+
+    width: 58px;
+    height: 58px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 90, 160, 0.16);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255,255,255,0.25);
+
+    color: white;
+
+    font-size: 30px;
+
+    cursor: pointer;
+
+    z-index: 100;
+
+    box-shadow:
+        0 0 20px rgba(255,80,150,0.35);
+
+    animation:
+        pulsar 2s infinite;
+
+    transition: 0.3s ease;
+}
+
+.botao-jogo:hover {
+    transform:
+        translateX(-50%)
+        scale(1.15);
+}
+
+@keyframes pulsar {
+
+    0%,
+    100% {
+        box-shadow:
+            0 0 15px rgba(255,80,150,0.35);
+    }
+
+    50% {
+        box-shadow:
+            0 0 35px rgba(255,80,150,0.75);
+    }
+}
+
+/* =========================================================
+   NOVO CORAÇÃO - FOTOS DELA
+========================================================= */
+
+.botao-fotos-dela {
+    position: fixed;
+
+    right: 25px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    width: 58px;
+    height: 58px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,105,180,0.18);
+
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+
+    border: 1px solid rgba(255,255,255,0.25);
+
+    font-size: 30px;
+
+    cursor: pointer;
+
+    z-index: 100;
+
+    box-shadow:
+        0 0 15px rgba(255,105,180,0.45),
+        inset 0 0 15px rgba(255,255,255,0.08);
+
+    animation:
+        pulsarFotos 2s infinite;
+
+    transition: 0.3s ease;
+}
+
+.botao-fotos-dela:hover {
+
+    transform:
+        translateY(-50%)
+        scale(1.15);
+
+    box-shadow:
+        0 0 30px rgba(255,105,180,0.8),
+        inset 0 0 15px rgba(255,255,255,0.15);
+}
+
+@keyframes pulsarFotos {
+
+    0%,
+    100% {
+        transform:
+            translateY(-50%)
+            scale(1);
+    }
+
+    50% {
+        transform:
+            translateY(-50%)
+            scale(1.08);
+    }
+}
+
+/* =========================================================
+   GALERIA DA LUA
+========================================================= */
+
+.galeria {
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(0,0,10,0.94);
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    z-index: 200;
+
+    padding: 25px;
+}
+
+.galeria.mostrar {
+    display: flex;
+}
+
+.conteudo-galeria {
+
+    width: min(90vw, 700px);
+
+    text-align: center;
+
+    position: relative;
+}
+
+.titulo-galeria {
+
+    color: white;
+
+    font-size: 22px;
+
+    margin-bottom: 18px;
+
+    text-shadow:
+        0 0 15px rgba(255,255,255,0.6);
+}
+
+.foto-galeria {
+
+    width: 100%;
+
+    max-height: 70vh;
+
+    object-fit: contain;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 0 35px rgba(255,255,255,0.2),
+        0 0 80px rgba(120,80,255,0.25);
+
+    transition:
+        opacity 0.3s ease;
+}
+
+.fechar-galeria {
+
+    position: absolute;
+
+    right: -5px;
+    top: -55px;
+
+    width: 42px;
+    height: 42px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,0.12);
+
+    color: white;
+
+    font-size: 22px;
+
+    cursor: pointer;
+}
+
+.navegar-galeria {
+
+    position: absolute;
+
+    top: 55%;
+
+    transform: translateY(-50%);
+
+    width: 45px;
+    height: 45px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,0.12);
+
+    color: white;
+
+    font-size: 25px;
+
+    cursor: pointer;
+}
+
+.anterior-galeria {
+    left: -60px;
+}
+
+.proxima-galeria {
+    right: -60px;
+}
+
+.contador-galeria {
+
+    color:
+        rgba(255,255,255,0.7);
+
+    margin-top: 12px;
+
+    font-size: 14px;
+}
+
+/* =========================================================
+   GALERIA DELA
+========================================================= */
+
+.galeria-dela {
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(0,0,10,0.95);
+
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    z-index: 250;
+
+    padding: 25px;
+}
+
+.galeria-dela.mostrar {
+    display: flex;
+}
+
+.conteudo-galeria-dela {
+
+    width: min(90vw, 650px);
+
+    text-align: center;
+
+    position: relative;
+}
+
+.titulo-dela {
+
+    color: white;
+
+    font-size: 22px;
+
+    margin-bottom: 18px;
+
+    text-shadow:
+        0 0 15px rgba(255,255,255,0.6);
+}
+
+.foto-dela {
+
+    width: 100%;
+
+    max-height: 70vh;
+
+    object-fit: contain;
+
+    border-radius: 18px;
+
+    box-shadow:
+        0 0 35px rgba(255,105,180,0.45),
+        0 0 80px rgba(120,80,255,0.25);
+
+    transition:
+        opacity 0.3s ease;
+}
+
+.fechar-dela {
+
+    position: absolute;
+
+    right: -5px;
+    top: -55px;
+
+    width: 42px;
+    height: 42px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,0.12);
+
+    color: white;
+
+    font-size: 22px;
+
+    cursor: pointer;
+}
+
+.navegar-dela {
+
+    position: absolute;
+
+    top: 55%;
+
+    transform: translateY(-50%);
+
+    width: 45px;
+    height: 45px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,0.12);
+
+    color: white;
+
+    font-size: 25px;
+
+    cursor: pointer;
+}
+
+.anterior-dela {
+    left: -60px;
+}
+
+.proxima-dela {
+    right: -60px;
+}
+
+.contador-dela {
+
+    color:
+        rgba(255,255,255,0.7);
+
+    margin-top: 12px;
+
+    font-size: 14px;
+}
+
+/* =========================================================
+   MINI-JOGO
+========================================================= */
+
+.jogo-overlay {
+
+    position: fixed;
+
+    inset: 0;
+
+    background:
+        rgba(0,0,10,0.94);
+
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+
+    display: none;
+
+    align-items: center;
+    justify-content: center;
+
+    z-index: 300;
+
+    padding: 20px;
+}
+
+.jogo-overlay.mostrar {
+    display: flex;
+}
+
+.jogo-caixa {
+
+    width: min(92vw, 700px);
+
+    height: min(80vh, 600px);
+
+    background:
+        rgba(255,255,255,0.06);
+
+    border:
+        1px solid rgba(255,255,255,0.18);
+
+    border-radius: 25px;
+
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+
+    box-shadow:
+        0 0 50px rgba(255,80,150,0.18);
+
+    padding: 20px;
+
+    position: relative;
+
+    display: flex;
+
+    flex-direction: column;
+
+    align-items: center;
+}
+
+.jogo-titulo {
+
+    color: white;
+
+    font-size: 24px;
+
+    margin-bottom: 5px;
+
+    text-shadow:
+        0 0 15px rgba(255,255,255,0.5);
+}
+
+.jogo-subtitulo {
+
+    color:
+        rgba(255,255,255,0.7);
+
+    font-size: 14px;
+
+    margin-bottom: 12px;
+
+    text-align: center;
+}
+
+.jogo-status {
+
+    display: flex;
+
+    gap: 30px;
+
+    margin-bottom: 12px;
+
+    color: white;
+
+    font-size: 17px;
+}
+
+.area-jogo {
+
+    width: 100%;
+
+    flex: 1;
+
+    position: relative;
+
+    overflow: hidden;
+
+    border-radius: 18px;
+
+    background:
+        radial-gradient(
+            circle at center,
+            rgba(100,80,180,0.12),
+            rgba(0,0,0,0.25)
+        );
+
+    border:
+        1px solid rgba(255,255,255,0.08);
+}
+
+.coracao-jogo {
+
+    position: absolute;
+
+    cursor: pointer;
+
+    user-select: none;
+
+    animation:
+        aparecerJogo 0.25s ease;
+
+    filter:
+        drop-shadow(
+            0 0 8px
+            rgba(255,80,150,0.8)
+        );
+}
+
+@keyframes aparecerJogo {
+
+    from {
+        opacity: 0;
+        transform: scale(0.3);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.coracao-jogo.pego {
+
+    animation:
+        pegarJogo 0.3s ease forwards;
+}
+
+@keyframes pegarJogo {
+
+    to {
+        opacity: 0;
+
+        transform:
+            scale(1.8)
+            rotate(20deg);
+    }
+}
+
+.iniciar-jogo {
+
+    margin-top: 15px;
+
+    padding:
+        12px 25px;
+
+    border: none;
+
+    border-radius: 25px;
+
+    background:
+        rgba(255,100,170,0.22);
+
+    border:
+        1px solid rgba(255,255,255,0.2);
+
+    color: white;
+
+    font-size: 16px;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+.iniciar-jogo:hover {
+
+    transform: scale(1.05);
+
+    background:
+        rgba(255,100,170,0.35);
+}
+
+.mensagem-vitoria {
+
+    position: absolute;
+
+    left: 50%;
+    top: 50%;
+
+    transform:
+        translate(-50%, -50%)
+        scale(0.7);
+
+    width: 80%;
+
+    padding: 25px;
+
+    text-align: center;
+
+    border-radius: 20px;
+
+    background:
+        rgba(20,10,35,0.92);
+
+    border:
+        1px solid rgba(255,255,255,0.2);
+
+    opacity: 0;
+
+    pointer-events: none;
+
+    transition: 0.4s;
+
+    box-shadow:
+        0 0 40px rgba(255,80,150,0.25);
+}
+
+.mensagem-vitoria.mostrar {
+
+    opacity: 1;
+
+    transform:
+        translate(-50%, -50%)
+        scale(1);
+}
+
+.fechar-jogo {
+
+    position: absolute;
+
+    top: 12px;
+    right: 15px;
+
+    width: 40px;
+    height: 40px;
+
+    border: none;
+
+    border-radius: 50%;
+
+    background:
+        rgba(255,255,255,0.1);
+
+    color: white;
+
+    font-size: 20px;
+
+    cursor: pointer;
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+    .lua {
+
+        width: 75px;
+        height: 75px;
+
+        top: 8%;
+        right: 6%;
+    }
+
+    .texto-container {
+
+        left: 4%;
+        right: 4%;
+
+        top: 10%;
+        bottom: 7%;
+    }
+
+    .parte {
+
+        margin-bottom: 90px;
+    }
+
+    .parte h2 {
+
+        font-size: 22px;
+    }
+
+    .parte p {
+
+        font-size: 17px;
+
+        line-height: 1.75;
+    }
+
+    .botao-jogo {
+
+        width: 50px;
+        height: 50px;
+
+        font-size: 26px;
+
+        top: 12px;
+    }
+
+    .botao-fotos-dela {
+
+        right: 12px;
+
+        width: 50px;
+        height: 50px;
+
+        font-size: 26px;
+    }
+
+    .botao-musica {
+
+        right: 15px;
+        bottom: 15px;
+
+        width: 48px;
+        height: 48px;
+    }
+
+    .anterior-galeria {
+
+        left: 5px;
+    }
+
+    .proxima-galeria {
+
+        right: 5px;
+    }
+
+    .anterior-dela {
+
+        left: 5px;
+    }
+
+    .proxima-dela {
+
+        right: 5px;
+    }
+
+    .fechar-galeria {
+
+        right: 5px;
+        top: -50px;
+    }
+
+    .fechar-dela {
+
+        right: 5px;
+        top: -50px;
+    }
+
+    .titulo-dela {
+
+        font-size: 18px;
+    }
+
+    .jogo-caixa {
+
+        height: 75vh;
+
+        padding: 15px;
+    }
+
+    .jogo-titulo {
+
+        font-size: 20px;
+    }
+
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- =========================================================
+     CÉU
+========================================================= -->
+
+<canvas id="ceu"></canvas>
+
+<div class="nebulosa"></div>
+
+
+<!-- =========================================================
+     LUA
+========================================================= -->
+
+<div
+    class="lua"
+    id="lua"
+    title="Clique para abrir nossas memórias ❤️">
+</div>
+
+
+<!-- =========================================================
+     BOTÃO DO MINI-JOGO
+========================================================= -->
+
+<button
+    class="botao-jogo"
+    id="botaoJogo">
+    ❤️
+</button>
+
+
+<!-- =========================================================
+     BOTÃO DAS FOTOS DELA
+========================================================= -->
+
+<button
+    class="botao-fotos-dela"
+    id="botaoFotosDela">
+    💗
+</button>
+
+
+<!-- =========================================================
+     TEXTO ROMÂNTICO
+========================================================= -->
+
+<div class="texto-container">
+
+    <div
+        class="texto-scroll"
+        id="textoScroll">
+
+
+        <!-- MENSAGEM DE ABERTURA -->
+
+        <section class="parte">
+
+            <h2>PARA A GAROTA QUE ADMIRO... ❤️</h2>
+
+            <p>
+Se eu pudesse escolher uma única pessoa para caminhar comigo em todos os capítulos da minha vida, escolheria você Sem pensar duas vezes,
+Você chegou e, de alguma forma, fez coisas simples terem outro significado, Um sorriso seu consegue mudar o meu dia, Uma mensagem sua consegue arrancar de mim um sorriso bobo, E até nos momentos em que não dizemos nada, a sua presença já é suficiente
+Eu não sei exatamente o que o futuro nos reserva, mas sei de uma coisa: entre tantas pessoas que poderiam ter cruzado o meu caminho, eu sou grato por ter encontrado você,
+Gosto dos nossos momentos, das nossas conversas, das nossas brincadeiras e até das pequenas coisas que talvez você nem perceba, São justamente essas pequenas coisas que fazem você ser tão especial para mim 
+Você é alguém que eu admiro, que eu quero proteger, apoiar e ver feliz
+Quero estar ao seu lado nos dias bons, mas principalmente naqueles dias em que tudo parecer difícil, Quero ser aquele abraço onde você possa descansar, aquele lugar onde você possa ser você mesma sem medo de ser julgada, 
+E se algum dia você esquecer o quanto é importante para mim, volte aqui e leia isso novamente.
+
+Você é a minha pessoa favorita. ❤️
+Não porque seja perfeita, mas porque é você.
+E dentre todas as histórias que eu poderia viver, existe uma que eu escolheria repetir infinitamente
+a nossa.
+ 🌙Milady❤️
+            </p>
+
+        </section>
+
+
+        <!-- PARTE I -->
+
+        <section class="parte">
+
+            <h2>— Você ✨ —<h2>
+
+            <p>
+Posso dizer, com mil palavras se fosse preciso, que foi um verdadeiro prazer conhecer você. Mas, mesmo assim, talvez nenhuma delas consiga explicar completamente o quanto sou feliz por ter cruzado o seu caminho.
+E, olhando para trás, acho que uma das melhores coisas que poderia ter acontecido foi termos criado o laço que temos hoje. Um laço que começou de uma forma e, aos poucos, foi se tornando algo cada vez mais bonito, mais forte e mais especial.
+E olha só onde estamos agora... começando uma nova etapa da nossa história. E, sinceramente, eu não poderia imaginar alguém melhor para viver essa nova fase comigo. ❤️
+É tão bom finalmente poder dizer o quanto eu gosto de você e o quanto é bom estar ao teu lado a cada minuto. Poder viver isso sem precisar esconder o que sinto, sem precisar fingir que você não ocupa um espaço enorme dentro de mim, sem ter que me preocupar com alguém tentando impedir aquilo que nós construímos.
+Eu posso simplesmente gostar de você. Posso demonstrar. Posso te olhar, te abraçar, estar contigo e aproveitar cada momento sem precisar esconder o que existe entre nós.
+E você... você é simplesmente deslumbrante.
+Linda, carinhosa, especial — mesmo que às vezes você tente me convencer do contrário. 😂❤️
+Mas existe algo em você que vai muito além daquilo que os olhos conseguem enxergar.
+Você conseguiu fazer uma coisa que nem todo mundo consegue: fez com que eu baixasse a minha própria guarda.
+Conseguiu fazer com que eu me abrisse, pouco a pouco, e me permitisse mostrar partes de mim que nem sempre consigo mostrar para as pessoas.
+E em cada conversa, em cada momento juntos, fui encontrando uma tranquilidade que eu não sabia que precisava.
+Te ouvir falar se tornou um dos sons que mais me acalmam.
+O teu abraço se tornou o meu conforto.
+E estar contigo se tornou aquele momento em que eu posso simplesmente respirar, esquecer um pouco o mundo lá fora e ser eu mesmo.
+Porque contigo eu sinto que posso baixar a guarda.
+Posso deixar de ser forte por alguns minutos.
+Posso simplesmente ficar ali, perto de você, sabendo que não preciso fingir nada.
+E talvez seja isso que torne tudo tão especial.
+            </p>
+
+        </section>
+
+
+        <!-- PARTE II -->
+
+        <section class="parte">
+
+            <h2> — Nós ❤️</h2>
+
+            <p>
+Talvez uma das coisas mais bonitas da nossa história seja justamente a forma como tudo começou. Antes de existir um “nós” como existe hoje, existia uma amizade, uma conexão e dois caminhos que, aos poucos, foram se aproximando.
+
+E, sem perceber, aquilo que começou como amizade foi se transformando em algo maior. Começamos a nos conhecer de uma maneira diferente, a enxergar um ao outro com outros olhos e a descobrir que, além de bons amigos, poderíamos ser algo muito mais especial.
+
+Hoje estamos dando um novo passo. Estamos deixando para trás aquela simples amizade e começando a construir uma relação baseada em carinho, confiança, respeito, companheirismo e, acima de tudo, amor. ❤️
+
+E eu quero que essa nova etapa seja apenas o começo de muitas outras.
+
+Quero que possamos crescer juntos, aprender um com o outro, apoiar nossos sonhos e comemorar cada conquista, por menor que seja. Quero estar presente quando tudo estiver bem, mas também quando as coisas ficarem difíceis.
+
+Que nunca nos falte vontade de conversar, de compreender, de perdoar e de escolher um ao outro todos os dias.
+
+Não espero que a nossa história seja perfeita. Espero que seja verdadeira. Que tenhamos força para enfrentar o que vier e maturidade para construir algo que dure.
+
+Que o nosso futuro seja próspero, cheio de conquistas, momentos inesquecíveis, viagens, risadas, abraços, sonhos realizados e, principalmente, que possamos olhar para trás um dia e perceber o quanto crescemos juntos.
+
+Porque eu não quero apenas viver momentos com você.
+
+Quero construir uma vida cheia deles. ❤️
+
+Que o tempo passe, que as coisas mudem, que a vida nos surpreenda...
+
+Mas que, no meio de tudo isso, continue existindo aquilo que começou lá atrás:
+
+eu, você e nós
+🌙Nanana, nanano❤️
+            </p>
+
+        </section>
+
+
+        <!-- PARTE III -->
+
+        <section class="parte">
+
+            <h2> Cada detalhe 🌙</h2>
+
+            <p>
+Eu gosto dos pequenos detalhes que fazem você ser você
+Do seu jeito
+Do seu sorriso
+Da maneira como você fala
+Das suas manias
+Das coisas que talvez você nem perceba, mas que eu acabo guardando
+E cada dia percebo que são esses pequenos detalhes que tornam você tão especial para mim
+            </p>
+
+        </section>
+
+
+        <!-- PARTE IV -->
+
+        <section class="parte">
+
+            <h2> Memórias ✨</h2>
+
+            <p>
+Existem momentos que passam rápido.
+Mas algumas memórias ficam.
+Uma conversa.
+Uma fotografia.
+Uma risada.
+Um olhar.
+Um simples momento juntos.
+Um beijo, muito menos o esperado :)
+            </p>
+
+        </section>
+
+
+        <!-- PARTE V -->
+
+        <section class="parte">
+
+            <h2> O que sinto ❤️</h2>
+
+            <p>
+Eu poderia escrever centenas de palavras
+Poderia tentar encontrar a frase perfeita
+Mas talvez a verdade seja muito mais simples
+Eu gosto de você
+Gosto de ter você por perto
+Gosto de cada momento nosso 
+E gosto da ideia de continuar criando novas lembranças ao seu lado
+            </p>
+
+        </section>
+
+
+        <!-- PARTE VI -->
+
+        <section class="parte">
+
+            <h2>Para você 🌌</h2>
+
+            <p>
+Se algum dia você olhar para o céu e perceber uma estrela brilhando um pouco mais, espero que se lembre dessa pequena surpresa
+Não porque ela seja perfeita
+Mas porque foi feita pensando em você
+E porque algumas pessoas merecem saber o quanto são especiais
+            </p>
+
+        </section>
+
+
+        <!-- PARTE VII -->
+
+        <section class="parte">
+
+            <h2>Sempre ❤️</h2>
+
+            <p>
+No meio de tantas pessoas, tantos lugares e tantos caminhos diferentes...
+Eu tive a sorte de encontrar você, e pensar que antigamente eu nem tinha a ideia que estaria vivendo esse momento com você
+E se existe algo que eu gostaria de guardar para sempre, são os momentos que fizeram a nossa história ser o que ela é
+Obrigado por existir, por ser essa pessoa maravilhosa
+❤️
+Com carinho: 
+❤️ teu Bichano ❤️
+            </p>
+
+        </section>
+
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     GALERIA DA LUA
+========================================================= -->
+
+<div
+    class="galeria"
+    id="galeria">
+
+    <div class="conteudo-galeria">
+
+
+        <button
+            class="fechar-galeria"
+            id="fecharGaleria">
+            ✕
+        </button>
+
+
+        <div
+            class="titulo-galeria"
+            id="tituloFoto">
+            Nossas memórias ❤️
+        </div>
+
+
+        <img
+            id="fotoAtual"
+            class="foto-galeria"
+            src="fotos/foto1.jpg"
+            alt="Nossa memória">
+
+
+        <button
+            class="navegar-galeria anterior-galeria"
+            id="anteriorGaleria">
+            ‹
+        </button>
+
+
+        <button
+            class="navegar-galeria proxima-galeria"
+            id="proximaGaleria">
+            ›
+        </button>
+
+
+        <div
+            class="contador-galeria"
+            id="contadorGaleria">
+            1 / 5
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     GALERIA DELA
+========================================================= -->
+
+<div
+    class="galeria-dela"
+    id="galeriaDela">
+
+
+    <div class="conteudo-galeria-dela">
+
+
+        <button
+            class="fechar-dela"
+            id="fecharDela">
+            ✕
+        </button>
+
+
+        <!-- PEQUENO TÍTULO -->
+
+        <div class="titulo-dela">
+            Ela, meu lugar favorito ❤️
+        </div>
+
+
+        <img
+            id="fotoDelaAtual"
+            class="foto-dela"
+            src="fotos-dela/foto1.jpg"
+            alt="Foto dela">
+
+
+        <button
+            class="navegar-dela anterior-dela"
+            id="anteriorDela">
+            ‹
+        </button>
+
+
+        <button
+            class="navegar-dela proxima-dela"
+            id="proximaDela">
+            ›
+        </button>
+
+
+        <div
+            class="contador-dela"
+            id="contadorDela">
+            1 / 5
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     MINI-JOGO
+========================================================= -->
+
+<div
+    class="jogo-overlay"
+    id="jogoOverlay">
+
+
+    <div class="jogo-caixa">
+
+
+        <button
+            class="fechar-jogo"
+            id="fecharJogo">
+            ✕
+        </button>
+
+
+        <div class="jogo-titulo">
+            Pegue os corações ❤️
+        </div>
+
+
+        <div class="jogo-subtitulo">
+            Você tem 30 segundos. Quantos consegue pegar?
+        </div>
+
+
+        <div class="jogo-status">
+
+            <span>
+                ❤️ Pontos:
+                <strong id="pontos">
+                    0
+                </strong>
+            </span>
+
+            <span>
+                ⏱️ Tempo:
+                <strong id="tempo">
+                    30
+                </strong>
+            </span>
+
+        </div>
+
+
+        <div
+            class="area-jogo"
+            id="areaJogo">
+        </div>
+
+
+        <button
+            class="iniciar-jogo"
+            id="iniciarJogo">
+            Começar ❤️
+        </button>
+
+
+        <div
+            class="mensagem-vitoria"
+            id="mensagemVitoria">
+        </div>
+
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     MÚSICA
+
+     IMPORTANTE:
+     Coloque musica.mp3 NA MESMA PASTA deste arquivo.
+
+     Estrutura:
+
+     📁 projeto
+        ├── index.html
+        ├── surpresa.html
+        ├── musica.mp3
+        ├── desenho.png
+        │
+        ├── 📁 fotos
+        │    ├── foto1.jpg
+        │    ├── foto2.jpg
+        │    ├── foto3.jpg
+        │    ├── foto4.jpg
+        │    └── foto5.jpg
+        │
+        └── 📁 fotos-dela
+             ├── foto1.jpg
+             ├── foto2.jpg
+             ├── foto3.jpg
+             ├── foto4.jpg
+             └── foto5.jpg
+
+     ========================================================= -->
+
+<audio
+    id="musica" loop autoplay>
+    
+
+    <source
+        src="musica.mp3"
+        type="audio/mpeg">
+
+</audio>
+
+
+<!-- =========================================================
+     BOTÃO DA MÚSICA
+========================================================= -->
+
+<button
+    class="botao-musica"
+    id="musicaBtn">
+    🎵
+</button>
+
+
+<script>
+
+/* =========================================================
+   CÉU ESTRELADO
+========================================================= */
+
+const canvas =
+    document.getElementById("ceu");
+
+const ctx =
+    canvas.getContext("2d");
+
+
+let largura;
+let altura;
+
+let estrelas = [];
+let estrelasCadentes = [];
+let cometas = [];
+
+
+function redimensionar() {
+
+    const dpr =
+        window.devicePixelRatio || 1;
+
+    largura =
+        window.innerWidth;
+
+    altura =
+        window.innerHeight;
+
+    canvas.width =
+        largura * dpr;
+
+    canvas.height =
+        altura * dpr;
+
+    canvas.style.width =
+        largura + "px";
+
+    canvas.style.height =
+        altura + "px";
+
+    ctx.setTransform(
+        dpr,
+        0,
+        0,
+        dpr,
+        0,
+        0
+    );
+
+    criarEstrelas();
+}
+
+
+function criarEstrelas() {
+
+    estrelas = [];
+
+    const quantidade =
+        Math.floor(
+            (largura * altura) / 850
+        );
+
+    for (
+        let i = 0;
+        i < quantidade;
+        i++
+    ) {
+
+        estrelas.push({
+
+            x:
+                Math.random() * largura,
+
+            y:
+                Math.random() * altura,
+
+            tamanho:
+                Math.random() * 1.8 + 0.3,
+
+            brilho:
+                Math.random(),
+
+            velocidade:
+                Math.random() * 0.02 + 0.005
+        });
+    }
+}
+
+
+function criarEstrelaCadente() {
+
+    estrelasCadentes.push({
+
+        x:
+            Math.random() * largura,
+
+        y:
+            Math.random() * altura * 0.65,
+
+        velocidade:
+            Math.random() * 9 + 7,
+
+        tamanho:
+            Math.random() * 2 + 1,
+
+        cauda:
+            Math.random() * 80 + 70,
+
+        angulo:
+            Math.PI / 4,
+
+        vida: 1
+    });
+}
+
+
+function criarCometa() {
+
+    cometas.push({
+
+        x: -150,
+
+        y:
+            Math.random() * altura * 0.55,
+
+        velocidade:
+            Math.random() * 7 + 8,
+
+        tamanho:
+            Math.random() * 100 + 100,
+
+        vida: 1
+    });
+}
+
+
+function desenharEstrelas() {
+
+    for (const estrela of estrelas) {
+
+        estrela.brilho +=
+            estrela.velocidade;
+
+        const brilho =
+            0.45 +
+            Math.sin(estrela.brilho) * 0.3;
+
+        ctx.beginPath();
+
+        ctx.fillStyle =
+            `rgba(255,255,255,${brilho})`;
+
+        ctx.arc(
+            estrela.x,
+            estrela.y,
+            estrela.tamanho,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fill();
+    }
+}
+
+
+function desenharEstrelasCadentes() {
+
+    for (
+        let i = estrelasCadentes.length - 1;
+        i >= 0;
+        i--
+    ) {
+
+        const estrela =
+            estrelasCadentes[i];
+
+        const dx =
+            Math.cos(estrela.angulo)
+            * estrela.cauda;
+
+        const dy =
+            Math.sin(estrela.angulo)
+            * estrela.cauda;
+
+
+        const gradiente =
+            ctx.createLinearGradient(
+                estrela.x,
+                estrela.y,
+                estrela.x - dx,
+                estrela.y - dy
+            );
+
+
+        gradiente.addColorStop(
+            0,
+            "rgba(255,255,255,1)"
+        );
+
+        gradiente.addColorStop(
+            1,
+            "rgba(255,255,255,0)"
+        );
+
+
+        ctx.beginPath();
+
+        ctx.strokeStyle =
+            gradiente;
+
+        ctx.lineWidth =
+            estrela.tamanho;
+
+        ctx.moveTo(
+            estrela.x,
+            estrela.y
+        );
+
+        ctx.lineTo(
+            estrela.x - dx,
+            estrela.y - dy
+        );
+
+        ctx.stroke();
+
+
+        estrela.x +=
+            Math.cos(estrela.angulo)
+            * estrela.velocidade;
+
+        estrela.y +=
+            Math.sin(estrela.angulo)
+            * estrela.velocidade;
+
+        estrela.vida -= 0.015;
+
+
+        if (
+            estrela.x > largura + 100 ||
+            estrela.y > altura + 100 ||
+            estrela.vida <= 0
+        ) {
+
+            estrelasCadentes.splice(i,1);
+        }
+    }
+}
+
+
+function desenharCometas() {
+
+    for (
+        let i = cometas.length - 1;
+        i >= 0;
+        i--
+    ) {
+
+        const cometa =
+            cometas[i];
+
+
+        const gradiente =
+            ctx.createLinearGradient(
+                cometa.x,
+                cometa.y,
+                cometa.x - cometa.tamanho,
+                cometa.y
+            );
+
+
+        gradiente.addColorStop(
+            0,
+            "rgba(255,255,255,0.9)"
+        );
+
+        gradiente.addColorStop(
+            1,
+            "rgba(255,255,255,0)"
+        );
+
+
+        ctx.beginPath();
+
+        ctx.strokeStyle =
+            gradiente;
+
+        ctx.lineWidth = 3;
+
+        ctx.moveTo(
+            cometa.x,
+            cometa.y
+        );
+
+        ctx.lineTo(
+            cometa.x - cometa.tamanho,
+            cometa.y
+        );
+
+        ctx.stroke();
+
+
+        ctx.beginPath();
+
+        ctx.fillStyle =
+            "rgba(255,255,255,1)";
+
+        ctx.arc(
+            cometa.x,
+            cometa.y,
+            4,
+            0,
+            Math.PI * 2
+        );
+
+        ctx.fill();
+
+
+        cometa.x +=
+            cometa.velocidade;
+
+        cometa.y +=
+            cometa.velocidade * 0.15;
+
+        cometa.vida -= 0.008;
+
+
+        if (
+            cometa.x >
+                largura + 200 ||
+            cometa.vida <= 0
+        ) {
+
+            cometas.splice(i,1);
+        }
+    }
+}
+
+
+function animar() {
+
+    ctx.fillStyle =
+        "#02030d";
+
+    ctx.fillRect(
+        0,
+        0,
+        largura,
+        altura
+    );
+
+
+    desenharEstrelas();
+
+    desenharEstrelasCadentes();
+
+    desenharCometas();
+
+
+    if (
+        Math.random() < 0.012
+    ) {
+
+        criarEstrelaCadente();
+    }
+
+
+    if (
+        Math.random() < 0.0025
+    ) {
+
+        criarCometa();
+    }
+
+
+    requestAnimationFrame(
+        animar
+    );
+}
+
+
+window.addEventListener(
+    "resize",
+    redimensionar
+);
+
+redimensionar();
+
+animar();
+
+
+/* =========================================================
+   CORAÇÕES FLUTUANTES
+========================================================= */
+
+function criarCoracaoFlutuante() {
+
+    const coracao =
+        document.createElement("div");
+
+    coracao.className =
+        "coracao";
+
+    coracao.textContent =
+        Math.random() > 0.5
+            ? "❤️"
+            : "♡";
+
+
+    coracao.style.left =
+        Math.random() * 100 + "%";
+
+
+    coracao.style.fontSize =
+        Math.random() * 15 + 14 + "px";
+
+
+    coracao.style.animationDuration =
+        Math.random() * 5 + 6 + "s";
+
+
+    document.body.appendChild(
+        coracao
+    );
+
+
+    setTimeout(
+        () => coracao.remove(),
+        12000
+    );
+}
+
+
+setInterval(
+    criarCoracaoFlutuante,
+    2500
+);
+
+
+/* =========================================================
+   CORAÇÕES AO CLICAR / PASSAR O DEDO
+========================================================= */
+
+function criarExplosaoCoracoes(
+    x,
+    y,
+    quantidade = 9
+) {
+
+    for (
+        let i = 0;
+        i < quantidade;
+        i++
+    ) {
+
+        const coracao =
+            document.createElement("div");
+
+        coracao.className =
+            "coracao-clique";
+
+
+        coracao.textContent =
+            Math.random() > 0.25
+                ? "❤️"
+                : "♡";
+
+
+        const angulo =
+            Math.random()
+            * Math.PI
+            * 2;
+
+
+        const distancia =
+            Math.random() * 80 + 35;
+
+
+        coracao.style.setProperty(
+            "--x",
+            x + "px"
+        );
+
+        coracao.style.setProperty(
+            "--y",
+            y + "px"
+        );
+
+        coracao.style.setProperty(
+            "--dx",
+            Math.cos(angulo)
+            * distancia
+            + "px"
+        );
+
+        coracao.style.setProperty(
+            "--dy",
+            Math.sin(angulo)
+            * distancia
+            + "px"
+        );
+
+        coracao.style.setProperty(
+            "--rot",
+            (
+                Math.random() * 80 - 40
+            ) + "deg"
+        );
+
+
+        document.body.appendChild(
+            coracao
+        );
+
+
+        setTimeout(
+            () => coracao.remove(),
+            1000
+        );
+    }
+}
+
+
+let tocando = false;
+
+let ultimoX = 0;
+let ultimoY = 0;
+
+
+document.addEventListener(
+    "pointerdown",
+    function(e) {
+
+        if (
+            e.target.closest(".lua") ||
+            e.target.closest(".botao-musica") ||
+            e.target.closest(".botao-jogo") ||
+            e.target.closest(".botao-fotos-dela") ||
+            e.target.closest(".galeria") ||
+            e.target.closest(".galeria-dela") ||
+            e.target.closest(".jogo-overlay")
+        ) {
+            return;
+        }
+
+
+        tocando = true;
+
+        ultimoX =
+            e.clientX;
+
+        ultimoY =
+            e.clientY;
+
+
+        criarExplosaoCoracoes(
+            e.clientX,
+            e.clientY,
+            10
+        );
+    }
+);
+
+
+document.addEventListener(
+    "pointermove",
+    function(e) {
+
+        if (!tocando) return;
+
+
+        const distancia =
+            Math.hypot(
+                e.clientX - ultimoX,
+                e.clientY - ultimoY
+            );
+
+
+        if (
+            distancia > 25
+        ) {
+
+            criarExplosaoCoracoes(
+                e.clientX,
+                e.clientY,
+                3
+            );
+
+
+            ultimoX =
+                e.clientX;
+
+            ultimoY =
+                e.clientY;
+        }
+    }
+);
+
+
+document.addEventListener(
+    "pointerup",
+    function() {
+
+        tocando = false;
+    }
+);
+
+
+document.addEventListener(
+    "pointercancel",
+    function() {
+
+        tocando = false;
+    }
+);
+
+
+/* =========================================================
+   TEXTO ARRASTÁVEL
+========================================================= */
+
+const textoContainer =
+    document.querySelector(
+        ".texto-container"
+    );
+
+const textoScroll =
+    document.getElementById(
+        "textoScroll"
+    );
+
+
+let textoPosicao = 100;
+
+let textoArrastando = false;
+
+let textoInicioY = 0;
+
+let textoInicioPosicao = 0;
+
+
+textoScroll.style.top =
+    textoPosicao + "%";
+
+
+textoContainer.addEventListener(
+    "pointerdown",
+    function(e) {
+
+        textoArrastando = true;
+
+        textoInicioY =
+            e.clientY;
+
+        textoInicioPosicao =
+            textoPosicao;
+
+
+        textoContainer.classList.add(
+            "arrastando"
+        );
+
+
+        textoContainer.setPointerCapture(
+            e.pointerId
+        );
+    }
+);
+
+
+textoContainer.addEventListener(
+    "pointermove",
+    function(e) {
+
+        if (
+            !textoArrastando
+        ) return;
+
+
+        const movimento =
+            e.clientY -
+            textoInicioY;
+
+
+        textoPosicao =
+            textoInicioPosicao +
+            (
+                movimento /
+                window.innerHeight
+            ) * 100;
+
+
+        textoScroll.style.top =
+            textoPosicao + "%";
+    }
+);
+
+
+function terminarArrastoTexto() {
+
+    textoArrastando =
+        false;
+
+    textoContainer.classList.remove(
+        "arrastando"
+    );
+}
+
+
+textoContainer.addEventListener(
+    "pointerup",
+    terminarArrastoTexto
+);
+
+
+textoContainer.addEventListener(
+    "pointercancel",
+    terminarArrastoTexto
+);
+
+
+textoContainer.addEventListener(
+    "wheel",
+    function(e) {
+
+        e.preventDefault();
+
+        textoPosicao +=
+            e.deltaY * -0.08;
+
+        textoScroll.style.top =
+            textoPosicao + "%";
+
+    },
+    {
+        passive: false
+    }
+);
+
+
+/* =========================================================
+   GALERIA DA LUA
+========================================================= */
+
+const lua =
+    document.getElementById(
+        "lua"
+    );
+
+const galeria =
+    document.getElementById(
+        "galeria"
+    );
+
+const fecharGaleria =
+    document.getElementById(
+        "fecharGaleria"
+    );
+
+const fotoAtual =
+    document.getElementById(
+        "fotoAtual"
+    );
+
+const tituloFoto =
+    document.getElementById(
+        "tituloFoto"
+    );
+
+const contadorGaleria =
+    document.getElementById(
+        "contadorGaleria"
+    );
+
+const anteriorGaleria =
+    document.getElementById(
+        "anteriorGaleria"
+    );
+
+const proximaGaleria =
+    document.getElementById(
+        "proximaGaleria"
+    );
+
+
+const fotos = [
+
+    {
+        src:
+            "fotos/foto1.jpg",
+
+        titulo:
+            "Nosso primeiro momento ❤️"
+    },
+
+    {
+        src:
+            "fotos/foto2.jpg",
+
+        titulo:
+            "Uma lembrança nossa ❤️"
+    },
+
+    {
+        src:
+            "fotos/foto3.jpg",
+
+        titulo:
+            "Mais um momento juntos ✨"
+    },
+
+    {
+        src:
+            "fotos/foto4.jpg",
+
+        titulo:
+            "Nós dois ❤️"
+    },
+
+    {
+        src:
+            "fotos/foto5.jpg",
+
+        titulo:
+            "Uma memória para sempre 🌙"
+    }
+
+];
+
+
+let fotoAtualIndex = 0;
+
+
+function mostrarFoto(index) {
+
+    if (
+        fotos.length === 0
+    ) return;
+
+
+    fotoAtualIndex =
+        (
+            index +
+            fotos.length
+        ) %
+        fotos.length;
+
+
+    const foto =
+        fotos[fotoAtualIndex];
+
+
+    fotoAtual.style.opacity =
+        "0";
+
+
+    setTimeout(
+        () => {
+
+            fotoAtual.src =
+                foto.src;
+
+            tituloFoto.textContent =
+                foto.titulo;
+
+            contadorGaleria.textContent =
+                `${fotoAtualIndex + 1} / ${fotos.length}`;
+
+
+            fotoAtual.style.opacity =
+                "1";
+
+        },
+        150
+    );
+}
+
+
+lua.addEventListener(
+    "click",
+    function(e) {
+
+        e.stopPropagation();
+
+        galeria.classList.add(
+            "mostrar"
+        );
+
+        mostrarFoto(
+            fotoAtualIndex
+        );
+    }
+);
+
+
+fecharGaleria.addEventListener(
+    "click",
+    function(e) {
+
+        e.stopPropagation();
+
+        galeria.classList.remove(
+            "mostrar"
+        );
+    }
+);
+
+
+galeria.addEventListener(
+    "click",
+    function(e) {
+
+        if (
+            e.target === galeria
+        ) {
+
+            galeria.classList.remove(
+                "mostrar"
+            );
+        }
+    }
+);
+
+
+anteriorGaleria.addEventListener(
+    "click",
+    function(e) {
+
+        e.stopPropagation();
+
+        mostrarFoto(
+            fotoAtualIndex - 1
+        );
+    }
+);
+
+
+proximaGaleria.addEventListener(
+    "click",
+    function(e) {
+
+        e.stopPropagation();
+
+        mostrarFoto(
+            fotoAtualIndex + 1
+        );
+    }
+);
+
+
+/* =========================================================
+   SWIPE GALERIA LUA
+========================================================= */
+
+let inicioSwipeX = 0;
+
+
+fotoAtual.addEventListener(
+    "pointerdown",
+    function(e) {
+
+        inicioSwipeX =
+            e.clientX;
+    }
+);
+
+
+fotoAtual.addEventListener(
+    "pointerup",
+    function(e) {
+
+        const distancia =
+            e.clientX -
+            inicioSwipeX;
+
+
+        if (
+            Math.abs(distancia) > 50
+        ) {
+
+            if (
+                distancia < 0
+            ) {
+
+                mostrarFoto(
+                    fotoAtualIndex + 1
+                );
+
+            } else {
+
+                mostrarFoto(
+                    fotoAtualIndex - 1
+                );
+            }
+        }
+    }
+);
+
+
+/* =========================================================
+   TECLADO GALERIA LUA
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(e) {
+
+        if (
+            !galeria.classList.contains(
+                "mostrar"
+            )
+        ) return;
+
+
+        if (
+            e.key === "ArrowRight"
+        ) {
+
+            mostrarFoto(
+                fotoAtualIndex + 1
+            );
+        }
+
+
+        if (
+            e.key === "ArrowLeft"
+        ) {
+
+            mostrarFoto(
+                fotoAtualIndex - 1
+            );
+        }
+
+
+        if (
+            e.key === "Escape"
+        ) {
+
+            galeria.classList.remove(
+                "mostrar"
+            );
+        }
+    }
+);
+
+
+/* =========================================================
+   GALERIA DELA
+========================================================= */
+
+const botaoFotosDela =
+    document.getElementById(
+        "botaoFotosDela"
+    );
+
+const galeriaDela =
+    document.getElementById(
+        "galeriaDela"
+    );
+
+const fecharDela =
+    document.getElementById(
+        "fecharDela"
+    );
+
+const fotoDelaAtual =
+    document.getElementById(
+        "fotoDelaAtual"
+    );
+
+const anteriorDela =
+    document.getElementById(
+        "anteriorDela"
+    );
+
+const proximaDela =
+    document.getElementById(
+        "proximaDela"
+    );
+
+const contadorDela =
+    document.getElementById(
+        "contadorDela"
+    );
+
+
+/* =========================================================
+   FOTOS DELA
+========================================================= */
+
+const fotosDela = [
+
+    "fotos-dela/foto1.jpg",
+
+    "fotos-dela/foto2.jpg",
+
+    "fotos-dela/foto3.jpg",
+
+    "fotos-dela/foto4.jpg",
+
+    "fotos-dela/foto5.jpg"
+
+];
+
+
+let fotoDelaIndex = 0;
+
+
+function mostrarFotoDela(index) {
+
+    fotoDelaIndex =
+        (
+            index +
+            fotosDela.length
+        ) %
+        fotosDela.length;
+
+
+    fotoDelaAtual.style.opacity =
+        "0";
+
+
+    setTimeout(
+        () => {
+
+            fotoDelaAtual.src =
+                fotosDela[
+                    fotoDelaIndex
+                ];
+
+
+            contadorDela.textContent =
+                `${fotoDelaIndex + 1} / ${fotosDela.length}`;
+
+
+            fotoDelaAtual.style.opacity =
+                "1";
+
+        },
+        150
+    );
+}
+
+
+/* ABRIR */
+
+botaoFotosDela.addEventListener(
+    "click",
+    function(e) {
+
+        e.stopPropagation();
+
+        galeriaDela.classList.add(
+            "mostrar"
+        );
+
+        mostrarFotoDela(
+            fotoDelaIndex
+        );
+    }
+);
+
+
+/* PRÓXIMA */
+
+proximaDela.addEventListener(
+    "click",
+    function(e) {
+
+        e.stopPropagation();
+
+        mostrarFotoDela(
+            fotoDelaIndex + 1
+        );
+    }
+);
+
+
+/* ANTERIOR */
+
+anteriorDela.addEventListener(
+    "click",
+    function(e) {
+
+        e.stopPropagation();
+
+        mostrarFotoDela(
+            fotoDelaIndex - 1
+        );
+    }
+);
+
+
+/* FECHAR */
+
+fecharDela.addEventListener(
+    "click",
+    function(e) {
+
+        e.stopPropagation();
+
+        galeriaDela.classList.remove(
+            "mostrar"
+        );
+    }
+);
+
+
+/* CLICAR FORA */
+
+galeriaDela.addEventListener(
+    "click",
+    function(e) {
+
+        if (
+            e.target === galeriaDela
+        ) {
+
+            galeriaDela.classList.remove(
+                "mostrar"
+            );
+        }
+    }
+);
+
+
+/* SWIPE */
+
+let inicioSwipeDela = 0;
+
+
+fotoDelaAtual.addEventListener(
+    "pointerdown",
+    function(e) {
+
+        inicioSwipeDela =
+            e.clientX;
+    }
+);
+
+
+fotoDelaAtual.addEventListener(
+    "pointerup",
+    function(e) {
+
+        const distancia =
+            e.clientX -
+            inicioSwipeDela;
+
+
+        if (
+            Math.abs(distancia) > 50
+        ) {
+
+            if (
+                distancia < 0
+            ) {
+
+                mostrarFotoDela(
+                    fotoDelaIndex + 1
+                );
+
+            } else {
+
+                mostrarFotoDela(
+                    fotoDelaIndex - 1
+                );
+            }
+        }
+    }
+);
+
+
+/* TECLADO */
+
+document.addEventListener(
+    "keydown",
+    function(e) {
+
+        if (
+            !galeriaDela.classList.contains(
+                "mostrar"
+            )
+        ) return;
+
+
+        if (
+            e.key === "ArrowRight"
+        ) {
+
+            mostrarFotoDela(
+                fotoDelaIndex + 1
+            );
+        }
+
+
+        if (
+            e.key === "ArrowLeft"
+        ) {
+
+            mostrarFotoDela(
+                fotoDelaIndex - 1
+            );
+        }
+
+
+        if (
+            e.key === "Escape"
+        ) {
+
+            galeriaDela.classList.remove(
+                "mostrar"
+            );
+        }
+    }
+);
+
+
+/* =========================================================
+   MINI-JOGO
+========================================================= */
+
+const botaoJogo =
+    document.getElementById(
+        "botaoJogo"
+    );
+
+const jogoOverlay =
+    document.getElementById(
+        "jogoOverlay"
+    );
+
+const fecharJogo =
+    document.getElementById(
+        "fecharJogo"
+    );
+
+const areaJogo =
+    document.getElementById(
+        "areaJogo"
+    );
+
+const pontosTexto =
+    document.getElementById(
+        "pontos"
+    );
+
+const tempoTexto =
+    document.getElementById(
+        "tempo"
+    );
+
+const iniciarJogo =
+    document.getElementById(
+        "iniciarJogo"
+    );
+
+const mensagemVitoria =
+    document.getElementById(
+        "mensagemVitoria"
+    );
+
+
+let pontos = 0;
+
+let tempo = 30;
+
+let intervaloTempo = null;
+
+let intervaloCoracoes = null;
+
+let jogoAtivo = false;
+
+
+/* ABRIR JOGO */
+
+botaoJogo.addEventListener(
+    "click",
+    function(e) {
+
+        e.stopPropagation();
+
+        jogoOverlay.classList.add(
+            "mostrar"
+        );
+    }
+);
+
+
+/* FECHAR JOGO */
+
+fecharJogo.addEventListener(
+    "click",
+    function(e) {
+
+        e.stopPropagation();
+
+        pararJogo();
+
+        jogoOverlay.classList.remove(
+            "mostrar"
+        );
+    }
+);
+
+
+/* CLICAR FORA */
+
+jogoOverlay.addEventListener(
+    "click",
+    function(e) {
+
+        if (
+            e.target === jogoOverlay
+        ) {
+
+            pararJogo();
+
+            jogoOverlay.classList.remove(
+                "mostrar"
+            );
+        }
+    }
+);
+
+
+/* INICIAR */
+
+iniciarJogo.addEventListener(
+    "click",
+    function(e) {
+
+        e.stopPropagation();
+
+        iniciarMiniJogo();
+    }
+);
+
+
+function iniciarMiniJogo() {
+
+    pararJogo();
+
+
+    pontos = 0;
+
+    tempo = 30;
+
+    jogoAtivo = true;
+
+
+    pontosTexto.textContent =
+        pontos;
+
+    tempoTexto.textContent =
+        tempo;
+
+
+    mensagemVitoria.classList.remove(
+        "mostrar"
+    );
+
+
+    areaJogo.innerHTML = "";
+
+
+    iniciarJogo.style.display =
+        "none";
+
+
+    intervaloTempo =
+        setInterval(
+            () => {
+
+                tempo--;
+
+                tempoTexto.textContent =
+                    tempo;
+
+
+                if (
+                    tempo <= 0
+                ) {
+
+                    terminarJogo();
+                }
+
+            },
+            1000
+        );
+
+
+    intervaloCoracoes =
+        setInterval(
+            criarCoracaoJogo,
+            650
+        );
+
+
+    criarCoracaoJogo();
+}
+
+
+function criarCoracaoJogo() {
+
+    if (
+        !jogoAtivo
+    ) return;
+
+
+    const coracao =
+        document.createElement(
+            "div"
+        );
+
+
+    coracao.className =
+        "coracao-jogo";
+
+
+    coracao.textContent =
+        Math.random() > 0.2
+            ? "❤️"
+            : "💖";
+
+
+    const areaWidth =
+        areaJogo.clientWidth;
+
+
+    const areaHeight =
+        areaJogo.clientHeight;
+
+
+    const tamanho =
+        Math.random() * 30 + 30;
+
+
+    coracao.style.fontSize =
+        tamanho + "px";
+
+
+    coracao.style.left =
+        Math.max(
+            0,
+            Math.random()
+            * (areaWidth - tamanho)
+        ) + "px";
+
+
+    coracao.style.top =
+        Math.max(
+            0,
+            Math.random()
+            * (areaHeight - tamanho)
+        ) + "px";
+
+
+    coracao.addEventListener(
+        "pointerdown",
+        function(e) {
+
+            e.stopPropagation();
+
+            pegarCoracao(
+                coracao
+            );
+        }
+    );
+
+
+    areaJogo.appendChild(
+        coracao
+    );
+
+
+    setTimeout(
+        () => {
+
+            if (
+                coracao.parentNode
+            ) {
+
+                coracao.remove();
+            }
+
+        },
+        1800
+    );
+}
+
+
+function pegarCoracao(
+    coracao
+) {
+
+    if (
+        !jogoAtivo
+    ) return;
+
+
+    pontos++;
+
+
+    pontosTexto.textContent =
+        pontos;
+
+
+    coracao.classList.add(
+        "pego"
+    );
+
+
+    const rect =
+        coracao.getBoundingClientRect();
+
+
+    criarExplosaoCoracoes(
+        rect.left +
+        rect.width / 2,
+
+        rect.top +
+        rect.height / 2,
+
+        3
+    );
+
+
+    setTimeout(
+        () => {
+
+            if (
+                coracao.parentNode
+            ) {
+
+                coracao.remove();
+            }
+
+        },
+        300
+    );
+}
+
+
+function terminarJogo() {
+
+    jogoAtivo = false;
+
+
+    clearInterval(
+        intervaloTempo
+    );
+
+
+    clearInterval(
+        intervaloCoracoes
+    );
+
+
+    intervaloTempo = null;
+
+    intervaloCoracoes = null;
+
+
+    areaJogo
+        .querySelectorAll(
+            ".coracao-jogo"
+        )
+        .forEach(
+            coracao =>
+                coracao.remove()
+        );
+
+
+    iniciarJogo.style.display =
+        "block";
+
+
+    if (
+        pontos >= 20
+    ) {
+
+        mensagemVitoria.innerHTML =
+            `
+            <div style="font-size:35px;">
+                🥰❤️
+            </div>
+
+            <br>
+
+            <strong>
+                Uau!
+            </strong>
+
+            <br><br>
+
+            Você pegou ${pontos} corações!
+
+            <br><br>
+
+            Acho que alguém está apaixonada... ❤️
+            `;
+
+    } else if (
+        pontos >= 10
+    ) {
+
+        mensagemVitoria.innerHTML =
+            `
+            <div style="font-size:35px;">
+                ❤️✨
+            </div>
+
+            <br>
+
+            Você pegou ${pontos} corações!
+
+            <br><br>
+
+            Nada mal...
+
+            <br>
+
+            Mas eu acho que você consegue pegar mais. 😏❤️
+            `;
+
+    } else {
+
+        mensagemVitoria.innerHTML =
+            `
+            <div style="font-size:35px;">
+                💗
+            </div>
+
+            <br>
+
+            Você pegou ${pontos} corações.
+
+            <br><br>
+
+            Parece que vai precisar tentar novamente. 😂❤️
+            `;
+    }
+
+
+    mensagemVitoria.classList.add(
+        "mostrar"
+    );
+}
+
+
+function pararJogo() {
+
+    jogoAtivo = false;
+
+
+    clearInterval(
+        intervaloTempo
+    );
+
+
+    clearInterval(
+        intervaloCoracoes
+    );
+
+
+    intervaloTempo = null;
+
+    intervaloCoracoes = null;
+}
+
+
+/* =========================================================
+   MÚSICA
+========================================================= */
+
+const musica =
+    document.getElementById( "musica"); 
+
+const musicaBtn =
+    document.getElementById(
+        "musicaBtn"
+    );
+// 🎵 TENTA INICIAR A MÚSICA AUTOMATICAMENTE AO ABRIR A SURPRESA
+window.addEventListener("load", () => {
+    musica.volume = 0.7;
+
+    musica.play().then(() => {
+        musicaTocando = true;
+        musicaBtn.textContent = "🔊";
+    }).catch(() => {
+        // Alguns navegadores bloqueiam música automática com som.
+        musicaTocando = false;
+        musicaBtn.textContent = "🎵";
+    });
+});
+
+let musicaTocando = false;
+
+
+/* BOTÃO DA MÚSICA */
+
+musicaBtn.addEventListener(
+    "click",
+    function(e) {
+
+        e.stopPropagation();
+
+
+        if (
+            musicaTocando
+        ) {
+
+            musica.pause();
+
+            musicaBtn.textContent =
+                "🎵";
+
+            musicaTocando =
+                false;
+
+        } else {
+
+            musica.play()
+                .then(
+                    () => {
+
+                        musicaBtn.textContent =
+                            "🔊";
+
+                        musicaTocando =
+                            true;
+                    }
+                )
+                .catch(
+                    () => {
+
+                        alert(
+                            "Toque novamente no botão 🎵 para iniciar a música ❤️"
+                        );
+                    }
+                );
+        }
+    }
+);
+
+
+/* =========================================================
+   FIM
+========================================================= */
+
+</script>
+
+</body>
+</html>

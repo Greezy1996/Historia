@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Você ❤️</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background: radial-gradient(circle at top, #3b123f, #120817 65%, #050208);
+            font-family: "Segoe UI", sans-serif;
+            color: white;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background-image:
+                radial-gradient(white 1px, transparent 1px),
+                radial-gradient(#ffb6df 1px, transparent 1px);
+            background-size: 90px 90px, 130px 130px;
+            background-position: 10px 20px, 50px 70px;
+            opacity: 0.35;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            width: min(90%, 430px);
+            padding: 30px 25px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 182, 220, 0.25);
+            border-radius: 28px;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 0 40px rgba(255, 70, 170, 0.18);
+            animation: aparecer 1.5s ease;
+        }
+
+        @keyframes aparecer {
+            from {
+                opacity: 0;
+                transform: translateY(30px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
+
+        .heart {
+            font-size: 35px;
+            animation: pulsar 1.5s infinite;
+        }
+
+        @keyframes pulsar {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+        }
+
+        h1 {
+            margin: 10px 0;
+            font-size: 30px;
+            font-weight: 600;
+        }
+
+        .subtitle {
+            color: #ffc9e6;
+            font-size: 15px;
+            margin-bottom: 22px;
+        }
+
+        .desenho {
+            width: 190px;
+            height: 190px;
+            margin: 0 auto 22px;
+            border-radius: 22px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 182, 220, 0.5);
+            background: rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 0 25px rgba(255, 70, 170, 0.2);
+        }
+
+        .desenho img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .sem-imagem {
+            color: #d9a9c5;
+            font-size: 13px;
+        }
+
+        .senha {
+            width: 100%;
+            padding: 14px 17px;
+            border: 1px solid rgba(255, 182, 220, 0.3);
+            border-radius: 15px;
+            outline: none;
+            background: rgba(0, 0, 0, 0.25);
+            color: white;
+            font-size: 15px;
+            text-align: center;
+        }
+
+        .senha::placeholder {
+            color: #c99db8;
+        }
+
+        .senha:focus {
+            border-color: #ff8bc8;
+            box-shadow: 0 0 15px rgba(255, 100, 180, 0.2);
+        }
+
+        button {
+            width: 100%;
+            margin-top: 14px;
+            padding: 14px;
+            border: none;
+            border-radius: 15px;
+            background: linear-gradient(135deg, #ff4fa3, #b52cff);
+            color: white;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        button:hover {
+            transform: scale(1.03);
+            box-shadow: 0 0 25px rgba(255, 70, 170, 0.4);
+        }
+
+        #resultado {
+            min-height: 22px;
+            margin-top: 13px;
+            font-size: 14px;
+        }
+
+        .correto { color: #8affc1; }
+        .errado { color: #ff8fa8; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="heart">❤️</div>
+        <h1>Uma surpresa para você</h1>
+        <p class="subtitle">tua data e a minha</p>
+
+        <div class="desenho">
+            <img src="desenho.png" alt="Nosso desenho"
+                 onerror="this.style.display='none'; document.querySelector('.sem-imagem').style.display='block';">
+            <span class="sem-imagem" style="display:none;">Seu desenho aparecerá aqui ❤️</span>
+        </div>
+
+        <input
+            type="password"
+            id="senha"
+            class="senha"
+            placeholder="Digite a senha..."
+            onkeydown="if(event.key === 'Enter') verificarSenha()"
+        >
+
+        <button onclick="verificarSenha()">Entrar ❤️</button>
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+
+const senhaCorreta = "1015";
+
+function verificarSenha() {
+    const senhaDigitada = document.getElementById("senha").value;
+    const resultado = document.getElementById("resultado");
+
+    if (senhaDigitada === senhaCorreta) {
+        resultado.innerHTML = "Senha correta! Redirecionando... 💗";
+        resultado.className = "correto";
+
+        // Redireciona para a surpresa depois de 1 segundo
+        setTimeout(() => {
+            window.location.href = "surpresa.html";
+        }, 1000);
+
+    } else {
+        resultado.innerHTML = "Senha incorreta 💗 — Tente novamente...";
+        resultado.className = "errado";
+    }
+}
+    </script>
+</body>
+</html>
